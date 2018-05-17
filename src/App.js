@@ -37,6 +37,10 @@ class BooksApp extends React.Component {
     })
   }
 
+  changeShelf(book,shelf){
+    BooksAPI.update(book,shelf).then(() => {})
+  }
+
   render() {
     const query = this.state.query
     let books;
@@ -66,7 +70,7 @@ class BooksApp extends React.Component {
             <div className="search-books-results">
               <ol className="books-grid">{
                 this.state.result.length > 0 && this.state.result.map((book) => (
-                  <Book key={book.id} book={book}/>
+                  <Book key={book.id} book={book} changeShelf={this.changeShelf}/>
                 ))
               }</ol>
             </div>
@@ -78,9 +82,9 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-              <BookShelf bookshelf={{name:'Currently Reading',shelf:'currentlyReading'}} books={this.state.books}/>
-              <BookShelf bookshelf={{name:'Want to Read',shelf:'wantToRead'}} books={this.state.books}/>
-              <BookShelf bookshelf={{name:'Read',shelf:'read'}} books={this.state.books}/>
+              <BookShelf bookshelf={{name:'Currently Reading',shelf:'currentlyReading'}} books={this.state.books} changeShelf={this.changeShelf}/>
+              <BookShelf bookshelf={{name:'Want to Read',shelf:'wantToRead'}} books={this.state.books} changeShelf={this.changeShelf}/>
+              <BookShelf bookshelf={{name:'Read',shelf:'read'}} books={this.state.books} changeShelf={this.changeShelf}/>
               </div>
           </div>
           <div className="open-search">
