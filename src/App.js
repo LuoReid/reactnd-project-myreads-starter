@@ -15,9 +15,16 @@ class BooksApp extends React.Component {
      */
     showSearchPage: false,
     books:[],
-    query:''
+    query:'',
+    result:[]
   }
-  updateQuery = (query) => { this.setState({query:query.trim()}) }
+  updateQuery = (query) => {
+    BooksAPI.search(query).then((sbooks) => {
+      console.log(sbooks)
+      this.setState({result:sbooks})
+    }).catch((err) => console.log(err))
+  }
+
   clearQuery = () => { this.setState({query:''}) }
 
   componentDidMount(){
@@ -31,11 +38,7 @@ class BooksApp extends React.Component {
     const query = this.state.query
     let books;
     if(query){
-      BooksAPI.search(query).then((sbooks) => {
-        console.log(sbooks)
-        books = sbooks
-        this.setState({books:books})
-      })
+
     }
 
     return (
@@ -54,13 +57,12 @@ class BooksApp extends React.Component {
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
                 <input type="text" placeholder="Search by title or author"
-                value={this.state.query}
                 onChange={(event) => this.updateQuery(event.target.value)}/>
               </div>
             </div>
             <div className="search-books-results">
               <ol className="books-grid">{
-                books.map((book) => (
+                this.state.result.map((book) => (
                   <Book key={book.id} book={book}/>
                 ))
               }</ol>
