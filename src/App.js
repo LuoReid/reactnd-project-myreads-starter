@@ -21,6 +21,10 @@ class BooksApp extends React.Component {
   updateQuery = (query) => {
     BooksAPI.search(query).then((sbooks) => {
       console.log(sbooks)
+      sbooks.length > 0 && sbooks.forEach((c) => {
+        const findBook = this.state.books.find(f => f.id === c.id)
+        c.shelf = findBook&&findBook.shelf?findBook.shelf:'none'
+      })
       this.setState({result:sbooks})
     }).catch((err) => console.log(err))
   }
@@ -29,7 +33,6 @@ class BooksApp extends React.Component {
 
   componentDidMount(){
     BooksAPI.getAll().then((books)=>{
-      console.log(books)
       this.setState({books:books})
     })
   }
@@ -62,7 +65,7 @@ class BooksApp extends React.Component {
             </div>
             <div className="search-books-results">
               <ol className="books-grid">{
-                this.state.result.map((book) => (
+                this.state.result.length > 0 && this.state.result.map((book) => (
                   <Book key={book.id} book={book}/>
                 ))
               }</ol>
