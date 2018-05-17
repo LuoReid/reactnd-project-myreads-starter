@@ -3,7 +3,7 @@ import BookShelf from './BookShelf'
 
 class MyBook extends Component{
   render(){
-    const {bookshelf, books} = this.props;
+    const {books,changeShelf} = this.props;
     return (
       <div className="list-books">
         <div className="list-books-title">
@@ -11,9 +11,9 @@ class MyBook extends Component{
         </div>
         <div className="list-books-content">
           <div>
-          <BookShelf bookshelf={{name:'Currently Reading',shelf:'currentlyReading'}} books={books}/>
-          <BookShelf bookshelf={{name:'Want to Read',shelf:'wantToRead'}} books={books}/>
-          <BookShelf bookshelf={{name:'Read',shelf:'read'}} books={books}/>
+          <BookShelf bookshelf={{name:'Currently Reading',shelf:'currentlyReading'}} books={books} changeShelf={changeShelf}/>
+          <BookShelf bookshelf={{name:'Want to Read',shelf:'wantToRead'}} books={books} changeShelf={changeShelf}/>
+          <BookShelf bookshelf={{name:'Read',shelf:'read'}} books={books} changeShelf={changeShelf}/>
           </div>
         </div>
         <div className="open-search">
