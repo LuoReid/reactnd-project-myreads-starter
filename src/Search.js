@@ -2,13 +2,14 @@ import React,{Component} from 'react'
 import {Link} from 'react-router-dom'
 import Book from './Book'
 import * as BooksAPI from './BooksAPI'
+import * as _ from 'lodash'
 
 class Search extends Component{
   state = {
     result:[]
   }
 
-  updateQuery = (query) => {
+  updateQuery = _.debounce(query => {
     const {books} = this.props
     BooksAPI.search(query).then((sbooks) => {
       sbooks.length > 0 && sbooks.forEach((c) => {
@@ -17,7 +18,7 @@ class Search extends Component{
       })
       this.setState({result:sbooks})
     }).catch((err) => console.log(err))
-  }
+  },400)
 
   render(){
     const {books,changeShelf} = this.props
